@@ -1,16 +1,16 @@
-# Log Analiz ve Uyari Araci
+# Log Analiz ve Uyarı Aracı
 
-Go ile yazilmis, Docker destekli CLI log analiz aracı.
+Go ile yazılmış, Docker destekli CLI log analiz aracı.
 
-## Ozellikler
+## Özellikler
 
-- Dosya bazli log analizi (auth.log, syslog, nginx, ufw.log, Windows Event Log)
-- Gercek zamanli izleme (tail modu)
+- Dosya bazlı log analizi (auth.log, syslog, nginx, ufw.log, Windows Event Log)
+- Gercek zamanlı izleme (tail modu)
 - YAML/JSON ile konfigüre edilebilir kurallar
-- CSV rapor ciktisi
+- CSV rapor cıktısı
 - Renkli interaktif CLI menu
 
-## Calistirma
+## Çalıştırma
 
 ### Docker ile
 
