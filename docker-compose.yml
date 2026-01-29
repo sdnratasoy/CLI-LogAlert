@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  loganalyzer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: log-analyzer
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./configs:/app/configs:ro
+      - ./samples:/app/samples:ro
+      - ./reports:/app/reports
+    environment:
+      - TZ=Europe/Istanbul

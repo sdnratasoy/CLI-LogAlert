@@ -1,0 +1,144 @@
+rules:
+  - name: "SSH Failed Login"
+    pattern: "[Ff]ailed password|authentication failure"
+    severity: "high"
+    log_types: ["auth.log", "secure"]
+    description: "Basarisiz SSH giris denemesi"
+    enabled: true
+
+  - name: "Invalid User"
+    pattern: "[Ii]nvalid user|unknown user"
+    severity: "medium"
+    log_types: ["auth.log", "secure"]
+    description: "Gecersiz kullanici girisi"
+    enabled: true
+
+  - name: "SSH Brute Force"
+    pattern: "repeated authentication failures|maximum authentication attempts"
+    severity: "critical"
+    log_types: ["auth.log", "secure"]
+    description: "SSH brute force saldirisi"
+    enabled: true
+
+  - name: "SSH Connection Success"
+    pattern: "sshd.*Accepted|session opened for user"
+    severity: "low"
+    log_types: ["auth.log", "secure"]
+    description: "Basarili SSH baglantisi"
+    enabled: true
+
+  - name: "Error Detection"
+    pattern: "[Ee]rror|ERROR|FATAL|[Ff]atal"
+    severity: "medium"
+    log_types: ["syslog", "messages", "nginx", "apache"]
+    description: "Genel hata tespiti"
+    enabled: true
+
+  - name: "Warning Detection"
+    pattern: "[Ww]arning|WARN"
+    severity: "low"
+    log_types: ["syslog", "messages"]
+    description: "Uyari tespiti"
+    enabled: true
+
+  - name: "Firewall Block"
+    pattern: "UFW BLOCK|iptables.*DROP|DENY"
+    severity: "medium"
+    log_types: ["ufw.log", "firewall", "iptables", "kern.log"]
+    description: "Firewall tarafindan engellenen baglantilar"
+    enabled: true
+
+  - name: "Port Scan Detection"
+    pattern: "possible SYN flooding|port scan|SCAN"
+    severity: "high"
+    log_types: ["ufw.log", "firewall", "kern.log"]
+    description: "Olasi port taramasi"
+    enabled: true
+
+  - name: "Nginx Error"
+    pattern: "\\[error\\]|\\[crit\\]|\\[alert\\]"
+    severity: "high"
+    log_types: ["nginx/error.log", "nginx", "error.log"]
+    description: "Nginx hata loglari"
+    enabled: true
+
+  - name: "HTTP 4xx Errors"
+    pattern: "\" 4[0-9]{2} "
+    severity: "low"
+    log_types: ["nginx/access.log", "apache/access.log", "access.log"]
+    description: "HTTP istemci hatalari (4xx)"
+    enabled: true
+
+  - name: "HTTP 5xx Errors"
+    pattern: "\" 5[0-9]{2} "
+    severity: "high"
+    log_types: ["nginx/access.log", "apache/access.log", "access.log"]
+    description: "HTTP sunucu hatalari (5xx)"
+    enabled: true
+
+  - name: "SQL Injection Attempt"
+    pattern: "UNION.*SELECT|OR.*1=1|DROP.*TABLE|;--"
+    severity: "critical"
+    log_types: ["access.log", "nginx", "apache"]
+    description: "Olasi SQL injection denemesi"
+    enabled: true
+
+  - name: "Disk Space Warning"
+    pattern: "[Nn]o space left|[Dd]isk full|filesystem.*full"
+    severity: "critical"
+    log_types: ["syslog", "messages", "kern.log"]
+    description: "Disk alani uyarisi"
+    enabled: true
+
+  - name: "Out of Memory"
+    pattern: "Out of memory|OOM killer|cannot allocate memory"
+    severity: "critical"
+    log_types: ["syslog", "messages", "kern.log"]
+    description: "Bellek yetersizligi"
+    enabled: true
+
+  - name: "Sudo Usage"
+    pattern: "sudo:.*COMMAND=|sudo:.*authentication failure"
+    severity: "medium"
+    log_types: ["auth.log", "secure", "sudo.log"]
+    description: "Sudo komut kullanimi"
+    enabled: true
+
+  - name: "Service Start/Stop"
+    pattern: "Starting|Stopping|Started|Stopped"
+    severity: "low"
+    log_types: ["syslog", "messages"]
+    description: "Servis baslatma/durdurma"
+    enabled: false 
+
+  - name: "Windows Failed Login"
+    pattern: "Event ID: (4625|4771|529|530|531|532|533|534|535|536|537|539)"
+    severity: "high"
+    log_types: ["Security.evtx", "windows", "event"]
+    description: "Windows guvenlik olaylari - basarisiz giris"
+    enabled: true
+
+  - name: "Windows Account Lockout"
+    pattern: "Event ID: 4740"
+    severity: "high"
+    log_types: ["Security.evtx", "windows"]
+    description: "Windows hesap kilitleme"
+    enabled: true
+
+  - name: "Windows Privilege Escalation"
+    pattern: "Event ID: (4672|4673|4674)"
+    severity: "medium"
+    log_types: ["Security.evtx", "windows"]
+    description: "Windows yetki yukseltme"
+    enabled: true
+
+settings:
+  default_log_path: "/var/log"
+
+  output_path: "./reports"
+
+  watch_extensions:
+    - ".log"
+    - ".txt"
+
+  buffer_size: 4096
